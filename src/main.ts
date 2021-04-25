@@ -34,7 +34,7 @@ async function bootstrap() {
   //   res.header('withCredentials', true);
   //   next();
   // });
-  await app.listen(process.env.PORT);
+  await app.listen(process.env.PORT || 3200);
   // tslint:disable-next-line: no-console
   console.log(
     `\x1b[35m[Server] - Application is running on: \x1b[36m${await app.getUrl()}\x1b[0m`,
