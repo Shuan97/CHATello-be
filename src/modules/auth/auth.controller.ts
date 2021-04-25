@@ -1,9 +1,7 @@
-import { DoesUserExist } from './../../core/guards/doesUserExist.guard';
 import {
   Body,
   Controller,
   Get,
-  Headers,
   HttpCode,
   Logger,
   Post,
@@ -12,10 +10,11 @@ import {
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { UserDto } from '../users/dto/user.dto';
-import { LocalAuthGuard } from 'core/guards/localAuth.guard';
 import { Public } from 'core/decorators/public.decorator';
+import { LocalAuthGuard } from 'core/guards/localAuth.guard';
+import { UserDto } from '../users/dto/user.dto';
+import { DoesUserExist } from './../../core/guards/doesUserExist.guard';
+import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {

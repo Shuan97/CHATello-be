@@ -1,7 +1,4 @@
-import { AuthService } from './../auth/auth.service';
-import { MessagesService } from './messages.service';
-import { Message } from 'modules/messages/message.entity';
-import { Logger, Request } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import {
   ConnectedSocket,
   MessageBody,
@@ -13,6 +10,8 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { AuthService } from './../auth/auth.service';
+import { MessagesService } from './messages.service';
 
 @WebSocketGateway(4001)
 export class MessagesGateway
