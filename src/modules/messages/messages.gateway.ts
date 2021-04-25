@@ -13,7 +13,7 @@ import { Server, Socket } from 'socket.io';
 import { AuthService } from './../auth/auth.service';
 import { MessagesService } from './messages.service';
 
-@WebSocketGateway(4001)
+@WebSocketGateway(14001)
 export class MessagesGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   constructor(
@@ -35,6 +35,7 @@ export class MessagesGateway
 
   afterInit(server: Server) {
     this.logger.log('\x1b[31mServer initialized');
+    console.log('Server', server);
   }
 
   handleDisconnect(client: Socket) {
