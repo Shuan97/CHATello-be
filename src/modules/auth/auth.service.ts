@@ -122,6 +122,7 @@ export class AuthService {
 
   public async getUserFromSocket(socket: Socket) {
     const cookie = socket.handshake.headers.cookie;
+    this.logger.log(socket.handshake.headers, 'Headers');
     this.logger.log(cookie, 'Socket cookie');
     const { Authentication: authenticationToken } = parse(cookie);
 
