@@ -14,10 +14,12 @@ async function bootstrap() {
     origin: process.env.ORIGIN_URL || 'http://localhost:3000',
     allowedHeaders: [
       'Accept',
+      'Authentication',
       'Authorization',
       'Content-Type',
       'Origin',
       'Cookie',
+      'Cookies',
       'Set-Cookie',
       'X-Requested-With',
       'X-XSRF-TOKEN',
