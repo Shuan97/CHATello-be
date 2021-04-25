@@ -13,7 +13,7 @@ import { Server, Socket } from 'socket.io';
 import { AuthService } from './../auth/auth.service';
 import { MessagesService } from './messages.service';
 
-@WebSocketGateway(14001)
+@WebSocketGateway()
 export class MessagesGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   constructor(
