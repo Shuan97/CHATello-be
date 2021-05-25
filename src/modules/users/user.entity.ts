@@ -52,18 +52,11 @@ export class User extends Model {
   nickname: string;
 
   @Column({
-    type: DataType.BOOLEAN,
+    type: DataType.STRING,
     allowNull: false,
     defaultValue: false,
   })
-  isAdmin: boolean;
-
-  @Column({
-    type: DataType.BOOLEAN,
-    allowNull: false,
-    defaultValue: false,
-  })
-  readonly isRootAdmin: boolean;
+  role: string;
 
   // @BeforeCreate
   // static removePriviliges(instance: User) {

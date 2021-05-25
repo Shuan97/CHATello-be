@@ -40,6 +40,7 @@ export class AuthService {
     const { password, ...result } = user['dataValues'];
     return result;
   }
+
   /**
    * @function login is used to login the user.
    * This takes the user information,
@@ -81,8 +82,9 @@ export class AuthService {
   /**
    * @function generateToken generates a token and then returns it.
    */
-  private async generateToken(user): Promise<string> {
-    const token = await this.jwtService.signAsync(user);
+  private async generateToken({ UUID, role }): Promise<string> {
+    const payload: ITokenPayload = { UUID, role };
+    const token = await this.jwtService.signAsync(payload);
     return token;
   }
 
@@ -122,8 +124,6 @@ export class AuthService {
 
   public async getUserFromSocket(socket: Socket) {
     const cookie = socket.handshake.headers.cookie;
-    this.logger.log(socket.handshake.headers, 'Headers');
-    this.logger.log(cookie, 'Socket cookie');
     const { Authentication: authenticationToken } = parse(cookie);
 
     const user = await this.getUserFromDatabaseUsingAuthToken(
@@ -137,14 +137,14 @@ export class AuthService {
     return user;
   }
 
-  public getJwtToken(UUID: string) {
-    const payload: ITokenPayload = { UUID };
+  public getJwtToken(UUID: string, role: string) {
+    const payload: ITokenPayload = { UUID, role };
     const token = this.jwtService.sign(payload);
     return { token };
   }
 
-  public getCookieWithJwtToken(UUID: string) {
-    const payload: ITokenPayload = { UUID };
+  public getCookieWithJwtToken(UUID: string, role: string) {
+    const payload: ITokenPayload = { UUID, role };
     const token = this.jwtService.sign(payload);
     return `Authentication=${token}; HttpOnly; SameSite=None; Secure=true; Path=/; Max-Age=${this.configService.get(
       'JWT_EXPIRATION_TIME',

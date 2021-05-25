@@ -24,14 +24,14 @@ export const databaseProviders = [
         default:
           config = databaseConfig.development;
       }
-      const sequelize = new Sequelize(config);
+      const sequelize = new Sequelize({ ...config, logging: false });
 
       // Tables to be generated in database
       sequelize.addModels([User, Message, Channel, UserChannel]);
 
       // Force tables to drop and re-create with no data
       // await sequelize.sync({ force: true });
-      // await sequelize.sync();
+      await sequelize.sync();
       return sequelize;
     },
   },

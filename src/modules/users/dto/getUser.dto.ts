@@ -11,8 +11,5 @@ export class GetUserDto {
   readonly nickname: string;
 
   @IsEmpty()
-  readonly isAdmin: boolean;
-
-  @IsEmpty()
-  readonly isRootAdmin: boolean;
+  readonly role: string;
 }

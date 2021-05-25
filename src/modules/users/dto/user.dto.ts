@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsEmail, IsEmpty, MinLength } from 'class-validator';
+import { IsNotEmpty, IsEmail, MinLength } from 'class-validator';
 
 export class UserDto {
   // @IsNotEmpty()
@@ -16,9 +16,6 @@ export class UserDto {
   readonly password: string;
   readonly nickname: string;
 
-  @IsEmpty()
-  readonly isAdmin: boolean;
-
-  @IsEmpty()
-  readonly isRootAdmin: boolean;
+  @IsNotEmpty()
+  readonly role: string;
 }

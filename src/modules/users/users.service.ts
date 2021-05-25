@@ -1,9 +1,7 @@
-import { Injectable, Inject } from '@nestjs/common';
-
-import { User } from './user.entity';
-import { UserDto } from './dto/user.dto';
+import { Inject, Injectable } from '@nestjs/common';
 import { USER_REPOSITORY } from '../../core/constants';
-import { toUserDto } from 'utils/mapper';
+import { UserDto } from './dto/user.dto';
+import { User } from './user.entity';
 
 @Injectable()
 export class UsersService {
@@ -20,7 +18,10 @@ export class UsersService {
   }
 
   async findOneByUUID(UUID: string): Promise<UserDto> {
-    const user = await this.userRepository.findOne<User>({ where: { UUID } });
+    const user = await this.userRepository.findOne<User>({
+      where: { UUID },
+      attributes: { exclude: ['password'] },
+    });
     // return toUserDto(user); // TODO
     return user;
   }

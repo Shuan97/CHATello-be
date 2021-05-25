@@ -34,8 +34,7 @@ export class MessagesGateway
   }
 
   afterInit(server: Server) {
-    this.logger.log('\x1b[31mServer initialized');
-    console.log('Server', server);
+    this.logger.log('\x1b[35mWebsocket initialized!', 'Websocket');
   }
 
   handleDisconnect(client: Socket) {
@@ -54,10 +53,8 @@ export class MessagesGateway
     );
     const messageWithUser = await this.messagesService.findOne(message.id);
     this.messageLogger.log(
-      `User: ${messageWithUser.user.name} | message: ${messageWithUser.body}`,
+      `User: ${messageWithUser.user.name} | Channel: ${content.channelUUID} | Message: ${messageWithUser.body}`,
     );
-    this.messageLogger.log(user.UUID);
-    this.messageLogger.log(content.channelUUID, 'Channel');
     this.server.emit(
       `messageToChannel=${content.channelUUID}`,
       messageWithUser,

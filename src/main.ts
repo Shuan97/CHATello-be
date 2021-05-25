@@ -1,17 +1,25 @@
+// import * as cookieParser from 'cookie-parser';
 import * as dotenv from 'dotenv';
 dotenv.config();
-import { ValidateInputPipe } from './core/pipes/validate.pipe';
+import { Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
+import * as cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
-// import * as cookieParser from 'cookie-parser';
+import { ValidateInputPipe } from './core/pipes/validate.pipe';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: true,
+  });
+  const logger: Logger = new Logger('Main');
+  const config = app.get(ConfigService);
+
   app.setGlobalPrefix('api/v1');
   app.useGlobalPipes(new ValidateInputPipe());
-  // app.use(cookieParser());
+  app.use(cookieParser());
   app.enableCors({
-    origin: process.env.ORIGIN_URL || 'http://localhost:3000',
+    origin: config.get('ORIGIN_URL') || 'http://localhost:3000',
     allowedHeaders: [
       'Accept',
       'Authentication',
@@ -37,9 +45,12 @@ async function bootstrap() {
   //   next();
   // });
   await app.listen(process.env.PORT || 3200);
-  // tslint:disable-next-line: no-console
-  console.log(
-    `\x1b[35m[Server] - Application is running on: \x1b[36m${await app.getUrl()}\x1b[0m`,
+  logger.log(
+    `\x1b[35mApplication is running on: \x1b[36m${await app.getUrl()}\x1b[0m`,
   );
+  logger.log(
+    `\x1b[35mCurrent build: \x1b[36m[${config.get('NODE_ENV')}]\x1b[0m`,
+  );
+  console.log('Config', config);
 }
 bootstrap();
