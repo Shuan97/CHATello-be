@@ -1,22 +1,7 @@
-import { MessagesGateway } from './messages.gateway';
+import { Body, Controller, Get, Logger, Post, Request } from '@nestjs/common';
 import { MessageDto } from './message.dto';
-import { AuthGuard } from '@nestjs/passport';
-import { Message } from 'modules/messages/message.entity';
+import { MessagesGateway } from './messages.gateway';
 import { MessagesService } from './messages.service';
-import {
-  Controller,
-  Get,
-  NotFoundException,
-  Param,
-  UseGuards,
-  Post,
-  Put,
-  Body,
-  Request,
-  Delete,
-  Logger,
-} from '@nestjs/common';
-import { Public } from 'core/decorators/public.decorator';
 
 @Controller('messages')
 export class MessagesController {

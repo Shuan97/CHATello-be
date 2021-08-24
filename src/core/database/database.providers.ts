@@ -5,6 +5,8 @@ import { SEQUELIZE, DEVELOPMENT, TEST, PRODUCTION } from '../constants';
 import { databaseConfig } from './database.config';
 import { User } from '../../modules/users/user.entity';
 import { Message } from 'modules/messages/message.entity';
+import { Category } from 'modules/categories/category.entity';
+import { Article } from 'modules/articles/article.entity';
 
 export const databaseProviders = [
   {
@@ -27,7 +29,14 @@ export const databaseProviders = [
       const sequelize = new Sequelize({ ...config, logging: false });
 
       // Tables to be generated in database
-      sequelize.addModels([User, Message, Channel, UserChannel]);
+      sequelize.addModels([
+        User,
+        Message,
+        Channel,
+        UserChannel,
+        Category,
+        Article,
+      ]);
 
       // Force tables to drop and re-create with no data
       // await sequelize.sync({ force: true });

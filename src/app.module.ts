@@ -1,14 +1,16 @@
 import * as Joi from '@hapi/joi';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ArticlesModule } from 'modules/articles/articles.module';
+import { CategoriesModule } from 'modules/categories/categories.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from './core/database/database.module';
-import { AuthModule } from './modules/auth/auth.module';
-import { ChannelsModule } from './modules/channels/channels.module';
-import { MessagesModule } from './modules/messages/messages.module';
-import { UserChannelsModule } from './modules/user-channels/user-channels.module';
-import { UsersModule } from './modules/users/users.module';
+import { AuthModule } from 'modules/auth/auth.module';
+import { ChannelsModule } from 'modules/channels/channels.module';
+import { MessagesModule } from 'modules/messages/messages.module';
+import { UserChannelsModule } from 'modules/user-channels/user-channels.module';
+import { UsersModule } from 'modules/users/users.module';
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import { UsersModule } from './modules/users/users.module';
     ChannelsModule,
     MessagesModule,
     UserChannelsModule,
+    CategoriesModule,
+    ArticlesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
