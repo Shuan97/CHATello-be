@@ -51,6 +51,6 @@ async function bootstrap() {
   logger.log(
     `\x1b[35mCurrent build: \x1b[36m[${config.get('NODE_ENV')}]\x1b[0m`,
   );
-  console.log('Config', config);
+  // console.log('Config', config);
 }
 bootstrap();
