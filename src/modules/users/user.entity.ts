@@ -1,3 +1,4 @@
+import { Answer } from 'modules/answers/answer.entity';
 import {
   Table,
   Column,
@@ -6,6 +7,7 @@ import {
   IsUUID,
   BelongsToMany,
   PrimaryKey,
+  HasMany,
 } from 'sequelize-typescript';
 import { v4 as uuidv4 } from 'uuid';
 import { Channel } from './../channels/channel.entity';
@@ -58,8 +60,14 @@ export class User extends Model {
   })
   role: string;
 
+  @Column({
+    type: DataType.TEXT,
+    allowNull: false,
+  })
+  image: string;
+
   // @BeforeCreate
-  // static removePriviliges(instance: User) {
+  // static removePrivileges(instance: User) {
   //   instance.isAdmin = false;
   //   instance.isRootAdmin = false;
   // }
@@ -69,6 +77,9 @@ export class User extends Model {
   //   otherKey: 'userUUID',
   //   through: () => UserChannel,
   // })
+
+  @HasMany(() => Answer)
+  answers: Answer[];
 
   @BelongsToMany(() => Channel, () => UserChannel, 'userUUID', 'channelUUID')
   channels: (Channel & { UserChannel: UserChannel })[];

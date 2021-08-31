@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsEmail, MinLength } from 'class-validator';
+import { IsNotEmpty, IsEmail, MinLength, MaxLength } from 'class-validator';
 
 export class UserDto {
   // @IsNotEmpty()
@@ -18,4 +18,8 @@ export class UserDto {
 
   @IsNotEmpty()
   readonly role: string;
+
+  @MaxLength(64000)
+  @IsNotEmpty()
+  readonly image: string;
 }

@@ -1,22 +1,20 @@
-import { Article } from 'modules/articles/article.entity';
+import { Question } from 'modules/questions/question.entity';
 import {
-  Table,
+  BelongsTo,
   Column,
-  Model,
   DataType,
-  IsUUID,
+  ForeignKey,
   HasMany,
+  IsUUID,
+  Model,
+  Table,
 } from 'sequelize-typescript';
 import { v4 as uuidv4 } from 'uuid';
-import { Question } from 'modules/questions/question.entity';
-import { Set } from 'modules/sets/set.entity';
-
-// Sequelize.UUID
-// UUID datatype for PostgreSQL and SQLite, CHAR(36) BINARY for MySQL
-// (use defaultValue: Sequelize.UUIDV1 or Sequelize.UUIDV4 to make sequelize generate the ids automatically)
+import { Category } from 'modules/categories/category.entity';
+import { Answer } from 'modules/answers/answer.entity';
 
 @Table
-export class Category extends Model {
+export class Set extends Model {
   @IsUUID(4)
   @Column({
     primaryKey: true,
@@ -42,20 +40,24 @@ export class Category extends Model {
   description: string;
 
   @Column({
-    type: DataType.TEXT,
-    allowNull: false,
-  })
-  image: string;
-
-  @Column({
     type: DataType.UUID,
     allowNull: false,
   })
   createdBy: string;
 
-  @HasMany(() => Article)
-  articles: Article[];
+  @ForeignKey(() => Category)
+  @Column({
+    type: DataType.UUID,
+    allowNull: false,
+  })
+  categoryUUID: string;
 
-  @HasMany(() => Set)
-  sets: Set[];
+  @BelongsTo(() => Category)
+  category: Category;
+
+  @HasMany(() => Question)
+  questions: Question[];
+
+  @HasMany(() => Answer)
+  answers: Answer[];
 }

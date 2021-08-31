@@ -1,14 +1,13 @@
-import { User } from './../users/user.entity';
-import { ITokenPayload } from './interfaces/tokenPayload.interface';
-import { Socket } from 'socket.io';
-import { Injectable, UnauthorizedException, Logger } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt';
-import { UsersService } from '../users/users.service';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { UserDto } from 'modules/users/dto/user.dto';
-import { parse } from 'cookie';
+import { JwtService } from '@nestjs/jwt';
 import { WsException } from '@nestjs/websockets';
+import * as bcrypt from 'bcrypt';
+import { parse } from 'cookie';
+import { UserDto } from 'modules/users/dto/user.dto';
+import { Socket } from 'socket.io';
+import { UsersService } from '../users/users.service';
+import { ITokenPayload } from './interfaces/tokenPayload.interface';
 
 @Injectable()
 export class AuthService {
