@@ -1,11 +1,9 @@
-import { AuthModule } from './../auth/auth.module';
 import { Module } from '@nestjs/common';
-import { MessagesService } from './messages.service';
+import { AuthModule } from './../auth/auth.module';
 import { MessagesController } from './messages.controller';
-import { messagesProviders } from './messages.providers';
 import { MessagesGateway } from './messages.gateway';
-import { Message } from './message.entity';
-import { MESSAGE_REPOSITORY } from 'core/constants';
+import { messagesProviders } from './messages.providers';
+import { MessagesService } from './messages.service';
 
 @Module({
   imports: [AuthModule],

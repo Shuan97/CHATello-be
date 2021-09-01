@@ -32,11 +32,9 @@ export class CategoriesService {
     });
   }
 
-  async create(category: CategoryDto, userUUID: string): Promise<Category> {
-    const createdBy = userUUID;
+  async create(category: CategoryDto, createdBy: string): Promise<Category> {
     const newCategory = await this.categoriesRepository.create<Category>({
       ...category,
-      userUUID,
       createdBy,
     });
     return newCategory;

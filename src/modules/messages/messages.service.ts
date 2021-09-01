@@ -1,8 +1,8 @@
+import { Inject, Injectable } from '@nestjs/common';
+import { MESSAGE_REPOSITORY } from './../../core/constants/index';
 import { User } from './../users/user.entity';
 import { MessageDto } from './message.dto';
 import { Message } from './message.entity';
-import { MESSAGE_REPOSITORY } from './../../core/constants/index';
-import { Inject, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class MessagesService {
@@ -32,7 +32,7 @@ export class MessagesService {
         {
           model: User,
           // attributes: { include: ['UUID', 'name', 'email', 'nickname'] },
-          attributes: ['UUID', 'name', 'email', 'nickname'],
+          attributes: ['UUID', 'name', 'email', 'nickname', 'image'],
         },
       ],
       // include: [{ model: User, attributes: { exclude: ['password'] } }],
@@ -47,7 +47,7 @@ export class MessagesService {
         {
           model: User,
           // attributes: { include: ['UUID', 'name', 'email', 'nickname'] },
-          attributes: ['UUID', 'name', 'email', 'nickname'],
+          attributes: ['UUID', 'name', 'email', 'nickname', 'image'],
         },
       ],
     });

@@ -35,7 +35,7 @@ export class ChannelsService {
         {
           model: User,
           // attributes: { include: ['UUID', 'name', 'email', 'nickname'] },
-          attributes: ['UUID', 'name', 'email', 'nickname'],
+          attributes: ['UUID', 'name', 'email', 'nickname', 'image'],
         },
       ],
     });
