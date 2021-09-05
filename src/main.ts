@@ -24,10 +24,9 @@ async function bootstrap() {
     origin: [
       'http://localhost:3000',
       'http://192.168.0.178:3000',
-      'http://chatello.herokuapp.com',
       'https://localhost:3000',
       'https://192.168.0.178:3000',
-      'https://chatello.herokuapp.com',
+      'https://lunatri.com',
     ],
     allowedHeaders: [
       'Accept',
