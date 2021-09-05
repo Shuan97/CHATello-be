@@ -16,7 +16,9 @@ export class ChannelsService {
     private readonly channelsRepository: typeof Channel,
     @Inject(MESSAGE_REPOSITORY)
     private readonly messagesRepository: typeof Message,
-  ) {}
+  ) {
+    // Channel.sync({ force: true });
+  }
 
   async getAll(): Promise<Channel[]> {
     return await this.channelsRepository.findAll<Channel>();

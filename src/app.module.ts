@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from 'core/filters/http-exception.filter';
+import { BroadcastGateway } from 'gateways/broadcast.gateway';
 import { ArticlesModule } from 'modules/articles/articles.module';
 import { AuthModule } from 'modules/auth/auth.module';
 import { CategoriesModule } from 'modules/categories/categories.module';
@@ -48,6 +49,7 @@ import { SetsModule } from './modules/sets/sets.module';
   controllers: [AppController],
   providers: [
     AppService,
+    BroadcastGateway,
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,

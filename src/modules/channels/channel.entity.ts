@@ -1,12 +1,10 @@
 import {
-  Table,
-  Column,
-  Model,
-  DataType,
-  ForeignKey,
   BelongsToMany,
+  Column,
+  DataType,
   IsUUID,
-  BelongsTo,
+  Model,
+  Table,
 } from 'sequelize-typescript';
 import { v4 as uuidv4 } from 'uuid';
 import { User } from '../users/user.entity';
@@ -31,6 +29,12 @@ export class Channel extends Model {
     allowNull: false,
   })
   name: string;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  type: string;
 
   @Column({
     type: DataType.UUID,

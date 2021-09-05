@@ -1,13 +1,12 @@
-// import * as cookieParser from 'cookie-parser';
 import * as dotenv from 'dotenv';
 dotenv.config();
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import * as cookieParser from 'cookie-parser';
+import { HttpExceptionFilter } from 'core/filters/http-exception.filter';
 import { AppModule } from './app.module';
 import { ValidateInputPipe } from './core/pipes/validate.pipe';
-import { HttpExceptionFilter } from 'core/filters/http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -21,7 +20,15 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
   app.use(cookieParser());
   app.enableCors({
-    origin: config.get('ORIGIN_URL') || 'http://localhost:3000',
+    // origin: config.get('ORIGIN_URL') || 'http://localhost:3000',
+    origin: [
+      'http://localhost:3000',
+      'http://192.168.0.178:3000',
+      'http://chatello.herokuapp.com',
+      'https://localhost:3000',
+      'https://192.168.0.178:3000',
+      'https://chatello.herokuapp.com',
+    ],
     allowedHeaders: [
       'Accept',
       'Authentication',
