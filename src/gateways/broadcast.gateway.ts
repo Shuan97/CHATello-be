@@ -37,9 +37,19 @@ export class BroadcastGateway
     );
   };
 
-  async handleConnection(socket: Socket, ...args: any[]) {
-    this.logger.log(`Client connected: ${socket.id}`);
-    socket.emit('me', socket.id);
+  async handleConnection(client: Socket, ...args: any[]) {
+    this.logger.log(`Client connected: ${client.id}`);
+    client.emit('me', client.id);
+    this.server.emit(`update-user-list`, {
+      users: this.activeSockets.map((socket) => ({
+        clientId: socket.id,
+        channelUUID: socket.channel,
+        channelName: socket.channelName,
+        userUUID: socket.user,
+        userName: socket.userName,
+      })),
+      type: 'updateUserList',
+    });
   }
 
   afterInit() {
@@ -135,6 +145,17 @@ export class BroadcastGateway
       })),
       type: 'updateUserList',
     });
+
+    this.server.emit(`user-joined-channel`, {
+      user: {
+        clientId: client.id,
+        channelUUID,
+        channelName,
+        userUUID,
+        userName,
+      },
+      type: 'updateSingleUser',
+    });
     // client.broadcast.emit(`update-user-list`, {
     //   users: this.activeSockets.map((socket) => ({
     //     clientId: socket.id,
@@ -175,5 +196,14 @@ export class BroadcastGateway
     );
 
     this.logActiveSockets('Active sockets after disconnect');
+  }
+
+  @SubscribeMessage('peer-connection')
+  public async peerConnection(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: any,
+  ) {
+    this.messageLogger.log(`Peer-connection: ${data}`);
+    this.server.emit('peer-connection', data);
   }
 }
