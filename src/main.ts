@@ -5,14 +5,34 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import * as cookieParser from 'cookie-parser';
 import { HttpExceptionFilter } from 'core/filters/http-exception.filter';
+import * as fs from 'fs';
+import * as path from 'path';
 import { AppModule } from './app.module';
 import { ValidateInputPipe } from './core/pipes/validate.pipe';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    logger: true,
-  });
   const logger: Logger = new Logger('Main');
+  const ssl = process.env.SSL === 'true' ? true : false;
+  let httpsOptions = {};
+  if (ssl) {
+    try {
+      const keyPath = process.env.SSL_KEY_PATH || '';
+      const certPath = process.env.SSL_CERT_PATH || '';
+      httpsOptions = {
+        logger: true,
+        key: fs.readFileSync(path.join(__dirname, keyPath)),
+        cert: fs.readFileSync(path.join(__dirname, certPath)),
+      };
+    } catch (error) {
+      logger.log(error);
+    }
+  } else {
+    httpsOptions = {
+      logger: true,
+    };
+  }
+
+  const app = await NestFactory.create(AppModule, { httpsOptions });
   const config = app.get(ConfigService);
 
   app.setGlobalPrefix('api/v1');
