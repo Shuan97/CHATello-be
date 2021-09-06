@@ -40,16 +40,7 @@ export class BroadcastGateway
   async handleConnection(client: Socket, ...args: any[]) {
     this.logger.log(`Client connected: ${client.id}`);
     client.emit('me', client.id);
-    this.server.emit(`update-user-list`, {
-      users: this.activeSockets.map((socket) => ({
-        clientId: socket.id,
-        channelUUID: socket.channel,
-        channelName: socket.channelName,
-        userUUID: socket.user,
-        userName: socket.userName,
-      })),
-      type: 'updateUserList',
-    });
+    this.updateUserList();
   }
 
   afterInit() {
@@ -72,6 +63,19 @@ export class BroadcastGateway
     );
 
     this.logActiveSockets('Active sockets after disconnection');
+  }
+
+  updateUserList() {
+    this.server.emit(`update-user-list`, {
+      users: this.activeSockets.map((socket) => ({
+        clientId: socket.id,
+        channelUUID: socket.channel,
+        channelName: socket.channelName,
+        userUUID: socket.user,
+        userName: socket.userName,
+      })),
+      type: 'updateUserList',
+    });
   }
 
   @SubscribeMessage('join-channel')
@@ -135,16 +139,18 @@ export class BroadcastGateway
       //   type: 'updateSingleUser',
       // });
     }
-    this.server.emit(`update-user-list`, {
-      users: this.activeSockets.map((socket) => ({
-        clientId: socket.id,
-        channelUUID: socket.channel,
-        channelName: socket.channelName,
-        userUUID: socket.user,
-        userName: socket.userName,
-      })),
-      type: 'updateUserList',
-    });
+    // this.server.emit(`update-user-list`, {
+    //   users: this.activeSockets.map((socket) => ({
+    //     clientId: socket.id,
+    //     channelUUID: socket.channel,
+    //     channelName: socket.channelName,
+    //     userUUID: socket.user,
+    //     userName: socket.userName,
+    //   })),
+    //   type: 'updateUserList',
+    // });
+
+    this.updateUserList();
 
     this.server.emit(`user-joined-channel`, {
       user: {
@@ -194,6 +200,8 @@ export class BroadcastGateway
     this.messageLogger.log(
       `\x1b[31m\n==========\n> User ${userName} [${userUUID}]\n> Disconnected channel ${channelName} [${channelUUID}]\n==========`,
     );
+
+    this.updateUserList();
 
     this.logActiveSockets('Active sockets after disconnect');
   }
