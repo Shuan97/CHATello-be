@@ -40,15 +40,17 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
   app.use(cookieParser());
   app.enableCors({
-    origin: [
-      'http://localhost:3000',
-      'http://192.168.0.178:3000',
-      'https://localhost:3000',
-      'https://192.168.0.178:3000',
-      'https://lunatri.com',
-    ],
+    // origin: [
+    //   'http://localhost:3000',
+    //   'http://192.168.0.178:3000',
+    //   'https://localhost:3000',
+    //   'https://192.168.0.178:3000',
+    //   'https://lunatri.com',
+    // ],
+    origin: 'https://lunatri.com',
     allowedHeaders: [
       'Accept',
+      'Access-Control-Allow-Origin',
       'Authentication',
       'Authorization',
       'Content-Type',
