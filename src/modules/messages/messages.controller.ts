@@ -12,7 +12,6 @@ export class MessagesController {
 
   private messageLogger: Logger = new Logger('MessageController');
 
-  // @Public()
   @Get()
   async findAll() {
     return await this.messagesService.findAll();

@@ -43,7 +43,7 @@ export class MessagesGateway
 
   @SubscribeMessage('messageFromChannel')
   async handleMessage(
-    @MessageBody() content: any, // TODO
+    @MessageBody() content: any,
     @ConnectedSocket() socket: Socket,
   ) {
     const user = await this.authService.getUserFromSocket(socket);

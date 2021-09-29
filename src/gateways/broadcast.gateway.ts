@@ -15,8 +15,6 @@ import { Server, Socket } from 'socket.io';
 // @WebSocketGateway()
 export class BroadcastGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
-  // constructor() {}
-
   @WebSocketServer()
   server: Server;
 
@@ -40,16 +38,7 @@ export class BroadcastGateway
   async handleConnection(client: Socket, ...args: any[]) {
     this.logger.log(`Client connected: ${client.id}`);
     client.emit('me', client.id);
-    this.server.emit(`update-user-list`, {
-      users: this.activeSockets.map((socket) => ({
-        clientId: socket.id,
-        channelUUID: socket.channel,
-        channelName: socket.channelName,
-        userUUID: socket.user,
-        userName: socket.userName,
-      })),
-      type: 'updateUserList',
-    });
+    this.updateUserList();
   }
 
   afterInit() {
@@ -71,7 +60,21 @@ export class BroadcastGateway
       (socket) => socket.id !== client.id,
     );
 
+    this.updateUserList();
     this.logActiveSockets('Active sockets after disconnection');
+  }
+
+  updateUserList() {
+    this.server.emit(`update-user-list`, {
+      users: this.activeSockets.map((socket) => ({
+        clientId: socket.id,
+        channelUUID: socket.channel,
+        channelName: socket.channelName,
+        userUUID: socket.user,
+        userName: socket.userName,
+      })),
+      type: 'updateUserList',
+    });
   }
 
   @SubscribeMessage('join-channel')
@@ -135,16 +138,18 @@ export class BroadcastGateway
       //   type: 'updateSingleUser',
       // });
     }
-    this.server.emit(`update-user-list`, {
-      users: this.activeSockets.map((socket) => ({
-        clientId: socket.id,
-        channelUUID: socket.channel,
-        channelName: socket.channelName,
-        userUUID: socket.user,
-        userName: socket.userName,
-      })),
-      type: 'updateUserList',
-    });
+    // this.server.emit(`update-user-list`, {
+    //   users: this.activeSockets.map((socket) => ({
+    //     clientId: socket.id,
+    //     channelUUID: socket.channel,
+    //     channelName: socket.channelName,
+    //     userUUID: socket.user,
+    //     userName: socket.userName,
+    //   })),
+    //   type: 'updateUserList',
+    // });
+
+    this.updateUserList();
 
     this.server.emit(`user-joined-channel`, {
       user: {
@@ -195,6 +200,8 @@ export class BroadcastGateway
       `\x1b[31m\n==========\n> User ${userName} [${userUUID}]\n> Disconnected channel ${channelName} [${channelUUID}]\n==========`,
     );
 
+    this.updateUserList();
+
     this.logActiveSockets('Active sockets after disconnect');
   }
 
@@ -203,7 +210,9 @@ export class BroadcastGateway
     @ConnectedSocket() client: Socket,
     @MessageBody() data: any,
   ) {
-    this.messageLogger.log(`Peer-connection: ${data}`);
+    if (!(data.indexOf('ice') > 0)) {
+      this.messageLogger.log(`Peer-connection: ${data}`);
+    }
     this.server.emit('peer-connection', data);
   }
 }

@@ -1,13 +1,12 @@
-import { ChannelCreated } from './channelCreated.dto';
-import { User } from './../users/user.entity';
-import { ChannelDto } from './channel.dto';
-import { Channel } from './channel.entity';
+import { Inject, Injectable } from '@nestjs/common';
+import { Message } from 'modules/messages/message.entity';
 import {
   CHANNEL_REPOSITORY,
   MESSAGE_REPOSITORY,
 } from './../../core/constants/index';
-import { Inject, Injectable } from '@nestjs/common';
-import { Message } from 'modules/messages/message.entity';
+import { User } from './../users/user.entity';
+import { ChannelDto } from './channel.dto';
+import { Channel } from './channel.entity';
 
 @Injectable()
 export class ChannelsService {
