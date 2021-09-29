@@ -13,24 +13,24 @@ import { ValidateInputPipe } from './core/pipes/validate.pipe';
 async function bootstrap() {
   let httpsOptions = {};
   const logger: Logger = new Logger('Main');
-  // const ssl = process.env.SSL === 'true' ? true : false;
-  // if (ssl) {
-  //   try {
-  //     const keyPath = process.env.SSL_KEY_PATH || '';
-  //     const certPath = process.env.SSL_CERT_PATH || '';
-  //     httpsOptions = {
-  //       logger: true,
-  //       key: fs.readFileSync(path.join(__dirname, keyPath)),
-  //       cert: fs.readFileSync(path.join(__dirname, certPath)),
-  //     };
-  //   } catch (error) {
-  //     logger.log(error);
-  //   }
-  // } else {
-  httpsOptions = {
-    logger: true,
-  };
-  // }
+  const ssl = process.env.SSL === 'true' ? true : false;
+  if (ssl) {
+    try {
+      const keyPath = process.env.SSL_KEY_PATH || '';
+      const certPath = process.env.SSL_CERT_PATH || '';
+      httpsOptions = {
+        logger: true,
+        key: fs.readFileSync(path.join(__dirname, keyPath)),
+        cert: fs.readFileSync(path.join(__dirname, certPath)),
+      };
+    } catch (error) {
+      logger.log(error);
+    }
+  } else {
+    httpsOptions = {
+      logger: true,
+    };
+  }
 
   const app = await NestFactory.create(AppModule, { httpsOptions });
   const config = app.get(ConfigService);
@@ -40,14 +40,13 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
   app.use(cookieParser());
   app.enableCors({
-    // origin: [
-    //   'http://localhost:3000',
-    //   'http://192.168.0.178:3000',
-    //   'https://localhost:3000',
-    //   'https://192.168.0.178:3000',
-    //   'https://lunatri.com',
-    // ],
-    origin: 'https://lunatri.com',
+    origin: [
+      'http://localhost:3000',
+      'http://192.168.0.178:3000',
+      'https://localhost:3000',
+      'https://192.168.0.178:3000',
+      'https://lunatri.com:443',
+    ],
     allowedHeaders: [
       'Accept',
       'Access-Control-Allow-Origin',
