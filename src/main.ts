@@ -13,24 +13,24 @@ import { ValidateInputPipe } from './core/pipes/validate.pipe';
 async function bootstrap() {
   let httpsOptions = {};
   const logger: Logger = new Logger('Main');
-  const ssl = process.env.SSL === 'true' ? true : false;
-  if (ssl) {
-    try {
-      const keyPath = process.env.SSL_KEY_PATH || '';
-      const certPath = process.env.SSL_CERT_PATH || '';
-      httpsOptions = {
-        logger: true,
-        key: fs.readFileSync(path.join(__dirname, keyPath)),
-        cert: fs.readFileSync(path.join(__dirname, certPath)),
-      };
-    } catch (error) {
-      logger.log(error);
-    }
-  } else {
-    httpsOptions = {
-      logger: true,
-    };
-  }
+  // const ssl = process.env.SSL === 'true' ? true : false;
+  // if (ssl) {
+  //   try {
+  //     const keyPath = process.env.SSL_KEY_PATH || '';
+  //     const certPath = process.env.SSL_CERT_PATH || '';
+  //     httpsOptions = {
+  //       logger: true,
+  //       key: fs.readFileSync(path.join(__dirname, keyPath)),
+  //       cert: fs.readFileSync(path.join(__dirname, certPath)),
+  //     };
+  //   } catch (error) {
+  //     logger.log(error);
+  //   }
+  // } else {
+  httpsOptions = {
+    logger: true,
+  };
+  // }
 
   const app = await NestFactory.create(AppModule, { httpsOptions });
   const config = app.get(ConfigService);
