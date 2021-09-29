@@ -1,8 +1,6 @@
-import { AuthGuard } from '@nestjs/passport';
-import { Channel } from './channel.entity';
+import { Body, Controller, Get, Param, Post, Request } from '@nestjs/common';
 import { ChannelDto } from './channel.dto';
 import { ChannelsService } from './channels.service';
-import { Controller, Post, Body, Request, Get, Param } from '@nestjs/common';
 
 @Controller('channels')
 export class ChannelsController {

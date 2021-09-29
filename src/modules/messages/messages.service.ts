@@ -18,9 +18,6 @@ export class MessagesService {
       ...message,
       userUUID,
     };
-    // return await this.messageRepository.create<Message>({
-    //   ...data,
-    // });
     return await this.messageRepository.create<Message>({
       ...data,
     });
@@ -31,12 +28,9 @@ export class MessagesService {
       include: [
         {
           model: User,
-          // attributes: { include: ['UUID', 'name', 'email', 'nickname'] },
           attributes: ['UUID', 'name', 'email', 'nickname', 'image'],
         },
       ],
-      // include: [{ model: User, attributes: { exclude: ['password'] } }],
-      // include: [User],
     });
   }
 

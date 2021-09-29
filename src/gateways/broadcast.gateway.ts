@@ -15,8 +15,6 @@ import { Server, Socket } from 'socket.io';
 // @WebSocketGateway()
 export class BroadcastGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
-  // constructor() {}
-
   @WebSocketServer()
   server: Server;
 
@@ -62,6 +60,7 @@ export class BroadcastGateway
       (socket) => socket.id !== client.id,
     );
 
+    this.updateUserList();
     this.logActiveSockets('Active sockets after disconnection');
   }
 
@@ -211,7 +210,9 @@ export class BroadcastGateway
     @ConnectedSocket() client: Socket,
     @MessageBody() data: any,
   ) {
-    this.messageLogger.log(`Peer-connection: ${data}`);
+    if (!(data.indexOf('ice') > 0)) {
+      this.messageLogger.log(`Peer-connection: ${data}`);
+    }
     this.server.emit('peer-connection', data);
   }
 }

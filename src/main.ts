@@ -11,9 +11,9 @@ import { AppModule } from './app.module';
 import { ValidateInputPipe } from './core/pipes/validate.pipe';
 
 async function bootstrap() {
+  let httpsOptions = {};
   const logger: Logger = new Logger('Main');
   const ssl = process.env.SSL === 'true' ? true : false;
-  let httpsOptions = {};
   if (ssl) {
     try {
       const keyPath = process.env.SSL_KEY_PATH || '';
@@ -40,7 +40,6 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
   app.use(cookieParser());
   app.enableCors({
-    // origin: config.get('ORIGIN_URL') || 'http://localhost:3000',
     origin: [
       'http://localhost:3000',
       'http://192.168.0.178:3000',

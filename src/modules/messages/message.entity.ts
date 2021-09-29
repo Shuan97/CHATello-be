@@ -24,13 +24,6 @@ export class Message extends Model {
   })
   userUUID: string;
 
-  // @ForeignKey(() => User)
-  // @Column({
-  //   type: DataType.INTEGER,
-  //   allowNull: false,
-  // })
-  // userUUID: number;
-
   @ForeignKey(() => Channel)
   @Column({
     type: DataType.UUID,
@@ -38,7 +31,6 @@ export class Message extends Model {
   })
   channelUUID: string;
 
-  // @BelongsTo(() => User, { foreignKey: 'UUID' })
   @BelongsTo(() => User, { foreignKey: 'userUUID' })
   user: User;
 
